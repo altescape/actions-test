@@ -24,8 +24,12 @@ jobs:
         run: |
           echo $PULL_NUMBER
       - uses: actions/checkout@v2
-      - name: Build render domain
+      - name: Add render.com preview host to Auth0 origin
         run: |
-          ls -la
-          sh ./deploy_scripts/test.sh
+          RENDER_NAME_MASTER="charity-portal-master"
+          sh ./deploy_scripts/manage_auth0_origin.sh add "${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
+      - name: Remove render.com preview host from Auth0 origin
+        run: |
+          RENDER_NAME_MASTER="charity-portal-master"
+          sh ./deploy_scripts/manage_auth0_origin.sh remove "${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
         
