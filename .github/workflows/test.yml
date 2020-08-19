@@ -23,3 +23,7 @@ jobs:
       - name: Output PR number
         run: |
           echo $PULL_NUMBER
+      - name: Build render domain
+        run: |
+          ./deploy_scripts/test.sh
+        
