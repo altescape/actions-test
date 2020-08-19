@@ -24,6 +24,9 @@ jobs:
         run: |
           echo $PULL_NUMBER
       - uses: actions/checkout@v2
+      - uses: azure/login@v1.1
+        with:
+          creds: ${{ secrets.Master_Credentials }}
       - name: Add render.com preview host to Auth0 origin
         run: |
           RENDER_NAME_MASTER="charity-portal-master"
