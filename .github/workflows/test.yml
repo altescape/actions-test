@@ -25,7 +25,7 @@ jobs:
           echo $PULL_NUMBER
       - uses: actions/checkout@v2
       - name: Build render domain
-        with: |
+        run: |
           ls -la
           sh ./deploy_scripts/test.sh
         
