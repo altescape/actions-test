@@ -1,4 +1,4 @@
-name: Tests
+name: Manage deployment
 
 on:
   push:
@@ -9,7 +9,8 @@ on:
       - master
 
 jobs:
-  test:
+  build:
+    name: Manage Auth0 origins
     runs-on: ubuntu-latest
     env:
       RENDER_NAME_MASTER: "charity-portal-master"
