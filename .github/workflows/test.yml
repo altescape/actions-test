@@ -26,5 +26,5 @@ jobs:
       - name: Build render domain
         run: |
           ls -la
-          ./deploy_scripts/test.sh
+          sh ./deploy_scripts/test.sh
         
