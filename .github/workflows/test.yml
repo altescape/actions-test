@@ -12,7 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Test
+      - name: Get PR number
         uses: actions/github-script@0.3.0
         with:
           github-token: ${{github.token}}
