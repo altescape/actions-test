@@ -23,8 +23,9 @@ jobs:
       - name: Output PR number
         run: |
           echo $PULL_NUMBER
+      - uses: actions/checkout@v2
       - name: Build render domain
-        run: |
+        with: |
           ls -la
           sh ./deploy_scripts/test.sh
         
