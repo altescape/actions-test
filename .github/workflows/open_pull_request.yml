@@ -23,10 +23,10 @@ jobs:
             const core = require('@actions/core')
             const prNumber = context.payload.number;
             core.exportVariable('PULL_NUMBER', prNumber);
-      - uses: actions/checkout@v2
-      - uses: azure/login@v1.1
-        with:
-          creds: ${{ secrets.Master_Credentials }}
+#       - uses: actions/checkout@v2
+#       - uses: azure/login@v1.1
+#         with:
+#           creds: ${{ secrets.Master_Credentials }}
       - name: Add render.com preview host to Auth0 origin
         run: |
           BUILT_HOST="https://${RENDER_SERVICE_NAME}-pr-${PULL_NUMBER}.onrender.com"
