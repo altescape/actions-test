@@ -5,3 +5,4 @@
 - Test adding origin to Auth0.
 - Test workflow and env variable readability across jobs.
 - Scrapped jobs, used steps instead.
+- Test close.
