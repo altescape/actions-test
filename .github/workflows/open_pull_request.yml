@@ -1,4 +1,4 @@
-name: Manage deployment on open PR
+ame: Manage deployment on open PR
 
 on:
   pull_request:
@@ -7,14 +7,13 @@ on:
       - master
 
 env:
-  RENDER_NAME_MASTER: "charity-portal-master"
+  RENDER_SERVICE_NAME: "charity-portal-workflow-test"
 
 jobs:
-  manageDeploy:
-    name: Manage origins
-    env:
-      PULL_NUMBER: ""
+  build:
+    name: Add Auth0 origins
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip_manage_deploy')"
     steps:
       - name: Get PR number
         uses: actions/github-script@0.3.0
@@ -24,8 +23,11 @@ jobs:
             const core = require('@actions/core')
             const prNumber = context.payload.number;
             core.exportVariable('PULL_NUMBER', prNumber);
-      - name: Output PR number
-        run: echo $PULL_NUMBER
-      - name: Output host
-        run: echo "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
-        
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1.1
+        with:
+          creds: ${{ secrets.Master_Credentials }}
+      - name: Add render.com preview host to Auth0 origin
+        run: |
+          BUILT_HOST="https://${RENDER_SERVICE_NAME}-pr-${PULL_NUMBER}.onrender.com"
+          echo $BUILT_HOST
