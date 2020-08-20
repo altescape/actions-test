@@ -12,8 +12,6 @@ env:
 jobs:
   getPrNumber:
     name: Get PR number
-    outputs:
-      prNumber: ${{steps.prNumber.outputs.prNumber}}
     env:
       PULL_NUMBER: ""
     runs-on: ubuntu-latest
@@ -26,18 +24,8 @@ jobs:
             const core = require('@actions/core')
             const prNumber = context.payload.number;
             core.exportVariable('PULL_NUMBER', prNumber);
-      - id: prNumber
-        name: Output PR number
-        run: echo "::set-output name=prNumber::${PULL_NUMBER}"
-  addOrigin:
-    needs: getPrNumber
-    name: Add origin to Auth0
-    runs-on: ubuntu-latest
-    steps:
-      - name: Output PR number again
-        run: |
-          echo ${{needs.getPrNumber.outputs.prNumber}}
+      - name: Output PR number
+        run: echo $PULL_NUMBER
       - name: Output host
-        run: |
-          echo "https://${RENDER_NAME_MASTER}-pr-${{needs.getPrNumber.outputs.prNumber}}.onrender.com"
+        run: echo "https://${RENDER_NAME_MASTER}-pr-${{needs.getPrNumber.outputs.prNumber}}.onrender.com"
         
