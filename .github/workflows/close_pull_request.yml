@@ -1,0 +1,42 @@
+name: Manage deployment
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  getPrNumber:
+    name: Get PR number
+    env:
+      RENDER_NAME_MASTER: "charity-portal-master"
+      PULL_NUMBER: ""
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get PR number
+        uses: actions/github-script@0.3.0
+        with:
+          github-token: ${{github.token}}
+          script: |
+            const core = require('@actions/core')
+            const prNumber = context.payload.number;
+            core.exportVariable('PULL_NUMBER', prNumber);
+      - name: Output PR number
+        run: |
+          echo $PULL_NUMBER
+  addOrigin:
+    needs: getPrNumber
+    name: Add origin to Auth0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output PR number again
+        run: |
+          echo $PULL_NUMBER
+#       - uses: actions/checkout@v2
+#       - uses: azure/login@v1.1
+#         with:
+#           creds: ${{ secrets.Master_Credentials }}
+#       - name: Add render.com preview host to Auth0 origin
+#         run: |
+#           sh ./deploy_scripts/manage_auth0_origin.sh rwmove "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
