@@ -29,6 +29,9 @@ jobs:
     name: Add origin to Auth0
     runs-on: ubuntu-latest
     steps:
+      - name: Output PR number again
+        run: |
+          echo $PULL_NUMBER
       - uses: actions/checkout@v2
       - uses: azure/login@v1.1
         with:
