@@ -39,5 +39,5 @@ jobs:
           echo ${{needs.getPrNumber.outputs.prNumber}}
       - name: Output host
         run: |
-          echo "https://${RENDER_NAME_MASTER}-pr-${{needs.getPrNumber.outputs.pull_number}}.onrender.com"
+          echo "https://${RENDER_NAME_MASTER}-pr-${{needs.getPrNumber.outputs.prNumber}}.onrender.com"
         
