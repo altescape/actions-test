@@ -10,8 +10,8 @@ env:
   RENDER_NAME_MASTER: "charity-portal-master"
 
 jobs:
-  getPrNumber:
-    name: Get PR number
+  manageDeploy:
+    name: Manage deploy
     env:
       PULL_NUMBER: ""
     runs-on: ubuntu-latest
