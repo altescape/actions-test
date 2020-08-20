@@ -1,19 +1,17 @@
 name: Manage deployment
 
 on:
-  push:
-    branches:
-      - master
   pull_request:
+    types: [opened]
     branches:
       - master
 
 jobs:
-  build:
-    name: Manage Auth0 origins
-    runs-on: ubuntu-latest
+  getPrNumber:
+    name: Get PR number
     env:
       RENDER_NAME_MASTER: "charity-portal-master"
+    runs-on: ubuntu-latest
     steps:
       - name: Get PR number
         uses: actions/github-script@0.3.0
@@ -26,6 +24,11 @@ jobs:
       - name: Output PR number
         run: |
           echo $PULL_NUMBER
+  addOrigin:
+    needs: getPrNumber
+    name: Add origin to Auth0
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v2
       - uses: azure/login@v1.1
         with:
@@ -33,7 +36,4 @@ jobs:
       - name: Add render.com preview host to Auth0 origin
         run: |
           sh ./deploy_scripts/manage_auth0_origin.sh add "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
-      - name: Remove render.com preview host from Auth0 origin
-        run: |
-          sh ./deploy_scripts/manage_auth0_origin.sh remove "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
         
