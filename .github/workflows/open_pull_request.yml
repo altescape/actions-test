@@ -1,4 +1,4 @@
-ame: Manage deployment on open PR
+name: Manage deployment on open PR
 
 on:
   pull_request:
@@ -31,3 +31,4 @@ jobs:
         run: |
           BUILT_HOST="https://${RENDER_SERVICE_NAME}-pr-${PULL_NUMBER}.onrender.com"
           echo $BUILT_HOST
+          sh ./deploy/manage_auth0_origins.sh add $BUILT_HOST
