@@ -1,4 +1,4 @@
-name: Manage deployment
+name: Manage deployment on open PR
 
 on:
   pull_request:
