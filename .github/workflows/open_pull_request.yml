@@ -27,5 +27,5 @@ jobs:
       - name: Output PR number
         run: echo $PULL_NUMBER
       - name: Output host
-        run: echo "https://${RENDER_NAME_MASTER}-pr-${{needs.getPrNumber.outputs.prNumber}}.onrender.com"
+        run: echo "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
         
