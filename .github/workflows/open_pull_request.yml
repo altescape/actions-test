@@ -6,11 +6,15 @@ on:
     branches:
       - master
 
+env:
+  RENDER_NAME_MASTER: "charity-portal-master"
+
 jobs:
   getPrNumber:
     name: Get PR number
+    outputs:
+      pull_number: ${{steps.prNumber.outputs.prNumber}}
     env:
-      RENDER_NAME_MASTER: "charity-portal-master"
       PULL_NUMBER: ""
     runs-on: ubuntu-latest
     steps:
@@ -22,9 +26,9 @@ jobs:
             const core = require('@actions/core')
             const prNumber = context.payload.number;
             core.exportVariable('PULL_NUMBER', prNumber);
-      - name: Output PR number
-        run: |
-          echo $PULL_NUMBER
+      - id: prNumber
+        name: Output PR number
+        run: echo "::set-output name="prNumber::${PULL_NUMBER}"
   addOrigin:
     needs: getPrNumber
     name: Add origin to Auth0
@@ -32,15 +36,8 @@ jobs:
     steps:
       - name: Output PR number again
         run: |
-          echo $PULL_NUMBER
+          echo ${{needs.getPrNumber.outputs.pull_number}}
       - name: Output host
         run: |
-          echo "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
-#       - uses: actions/checkout@v2
-#       - uses: azure/login@v1.1
-#         with:
-#           creds: ${{ secrets.Master_Credentials }}
-#       - name: Add render.com preview host to Auth0 origin
-#         run: |
-#           sh ./deploy_scripts/manage_auth0_origin.sh add "https://${RENDER_NAME_MASTER}-pr-${PULL_NUMBER}.onrender.com"
+          echo "https://${RENDER_NAME_MASTER}-pr-${{needs.getPrNumber.outputs.pull_number}}.onrender.com"
         
